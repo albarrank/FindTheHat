@@ -27,21 +27,42 @@ class Field {
         this._field[row][col] = pathCharacter;
     }
 
-    
+    static generateField(height, width) {
+        const randField = [];
+        let randCol = Math.floor(Math.random() * width);
+        let randRow = Math.floor(Math.random() * height);
+
+
+        for (let i = 0; i < height; i++) {
+            let row = [];
+            for (let k = 0; k < width; k++) {
+                if (k === 0 && i === 0) row.push(pathCharacter);
+
+                else row.push(randomCharacter());
+            }
+            randField.push(row);
+        }
+
+        if (randRow === 0) randRow++;
+
+        randField[randRow][randCol] = hat;
+        console.log(randField)
+    }
 };
 
-const myField = new Field([
-    ['*', '░', 'O'],
-    ['░', 'O', '░'],
-    ['░', '^', '░']
-]);
+// const myField = new Field([
+//     ['*', '░', 'O'],
+//     ['░', 'O', '░'],
+//     ['░', '^', '░']
+// ]);
+const myField = new Field(Field.generateField(5, 5));
 
 // Game logic
-
 let gameOver = false;
 let currentRow = 0;
 let currentCol = 0;
-
+/**
+ 
 while (!gameOver) {
 
     // Give directions
@@ -84,6 +105,7 @@ while (!gameOver) {
 
     }
 }
+ */
 
 
 function checkStatus(currentRow, currentCol) {
@@ -122,4 +144,11 @@ function checkStatus(currentRow, currentCol) {
         status
 
     }
+}
+
+function randomCharacter() {
+    const characterArray = [hole, fieldCharacter, fieldCharacter, hole, fieldCharacter, fieldCharacter];
+    const randomIndex = Math.floor(Math.random() * characterArray.length);
+
+    return characterArray[randomIndex]
 }
