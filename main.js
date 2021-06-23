@@ -26,6 +26,8 @@ class Field {
         // create code for user to backtrack
         this._field[row][col] = pathCharacter;
     }
+
+    
 };
 
 const myField = new Field([
@@ -39,34 +41,34 @@ const myField = new Field([
 let gameOver = false;
 let currentRow = 0;
 let currentCol = 0;
-let status = null;
 
 while (!gameOver) {
-    
+
     // Give directions
-    console.log('\n\nDirections: up = U, down = D, right = R, left = L');
-    
+    console.log('\n\nDirections: up = u, down = d, right = r, left = l');
+
     // Show the current field for the game
     myField.print();
     const direction = prompt('Which direction would you like to move? ');
 
 
 
-    if (direction === 'U') {
+    if (direction === 'u') {
         currentRow--;
         game = checkStatus(currentRow, currentCol);
-    } else if (direction === 'D') {
+    } else if (direction === 'd') {
         currentRow++;
         game = checkStatus(currentRow, currentCol);
-    } else if (direction === 'L') {
+    } else if (direction === 'l') {
         currentCol--;
         game = checkStatus(currentRow, currentCol);
-    } else if (direction === 'R') {
+    } else if (direction === 'r') {
         currentCol++;
         game = checkStatus(currentRow, currentCol);
     } else {
         game = checkStatus(currentRow, currentCol);
-        console.log(game);
+        console.log('\n');
+        console.log(game.status);
     }
 
     // Check if Game over
@@ -80,7 +82,7 @@ while (!gameOver) {
         console.log(game.status);
 
 
-    } 
+    }
 }
 
 
@@ -88,12 +90,9 @@ function checkStatus(currentRow, currentCol) {
     const colOutOfBounds = myField.field.length;
     const rowOutOfBounds = myField.field[0].length;
 
-    // console.log(currentRow, currentCol);
-    // console.log(rowOutOfBounds, colOutOfBounds);
-
     let status = undefined;
     let over = undefined;
-    
+
     // Check if Fallen off column
     if (currentCol < 0 || currentCol >= colOutOfBounds) {
         over = true;
@@ -115,7 +114,7 @@ function checkStatus(currentRow, currentCol) {
         status = 'You Fell In A Hole!';
     } else {
         over = false;
-        status ='Invalid Input Please Use Valid Directions.';
+        status = 'Invalid Input Please Use Valid Directions.';
     }
 
     return {
