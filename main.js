@@ -23,52 +23,48 @@ class Field {
     }
 
     updateField(row, col) {
-        // create code for user to backtrack
         this._field[row][col] = pathCharacter;
     }
 
     static generateField(height, width) {
         const randField = [];
+        
+        // randomized location for hat
         let randCol = Math.floor(Math.random() * width);
         let randRow = Math.floor(Math.random() * height);
 
 
         for (let i = 0; i < height; i++) {
             let row = [];
+
             for (let k = 0; k < width; k++) {
                 if (k === 0 && i === 0) row.push(pathCharacter);
-
                 else row.push(randomCharacter());
             }
             randField.push(row);
         }
-
+        
+        // make sure hat is not located in the same location as start point of user
         if (randRow === 0) randRow++;
-
         randField[randRow][randCol] = hat;
-        console.log(randField)
+
+        return randField;
     }
 };
 
-// const myField = new Field([
-//     ['*', '░', 'O'],
-//     ['░', 'O', '░'],
-//     ['░', '^', '░']
-// ]);
 const myField = new Field(Field.generateField(5, 5));
+
+console.log(myField)
 
 // Game logic
 let gameOver = false;
 let currentRow = 0;
 let currentCol = 0;
-/**
  
 while (!gameOver) {
 
-    // Give directions
     console.log('\n\nDirections: up = u, down = d, right = r, left = l');
 
-    // Show the current field for the game
     myField.print();
     const direction = prompt('Which direction would you like to move? ');
 
@@ -105,8 +101,6 @@ while (!gameOver) {
 
     }
 }
- */
-
 
 function checkStatus(currentRow, currentCol) {
     const colOutOfBounds = myField.field.length;
