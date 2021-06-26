@@ -10,6 +10,11 @@ const pathCharacter = '*';
 class Field {
     constructor(twoDimArray) {
         this._field = twoDimArray;
+        this.playerXLocation = 0;
+        this.playerYLocation = 0;
+
+        // home position for player 
+        this._field[0][0] = pathCharacter;
     }
 
     get field() {
@@ -28,7 +33,7 @@ class Field {
 
     static generateField(height, width) {
         const randField = [];
-        
+
         // randomized location for hat
         let randCol = Math.floor(Math.random() * width);
         let randRow = Math.floor(Math.random() * height);
@@ -43,7 +48,7 @@ class Field {
             }
             randField.push(row);
         }
-        
+
         // make sure hat is not located in the same location as start point of user
         if (randRow === 0) randRow++;
         randField[randRow][randCol] = hat;
@@ -60,7 +65,7 @@ console.log(myField)
 let gameOver = false;
 let currentRow = 0;
 let currentCol = 0;
- 
+
 while (!gameOver) {
 
     console.log('\n\nDirections: up = u, down = d, right = r, left = l');
