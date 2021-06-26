@@ -12,6 +12,10 @@ class Field {
         this._field = twoDimArray;
         this.playerXLocation = 0;
         this.playerYLocation = 0;
+        this.game = {
+            over: false,
+            message: ''
+        }
 
         // home position for player 
         this._field[0][0] = pathCharacter;
@@ -19,6 +23,93 @@ class Field {
 
     get field() {
         return this._field;
+    }
+
+    startGame() {
+        // let gameOver = false;
+
+        while (!this.game.over) {
+
+
+            this.print();
+            this.askQuestion();
+
+            // Check if Game over
+            if (!this.game.over) this.updateField(this.playerYLocation, this.playerXLocation);
+            else {
+
+                // End the game
+                gameOver = game.over
+
+                // Log reason Game ended
+                console.log(game.status);
+
+
+            }
+        }
+
+
+    }
+
+    askQuestion() {
+        console.log('\n\nDirections: up = u, down = d, right = r, left = l');
+        const direction = prompt('Which direction would you like to move? ');
+
+        if (direction === 'u') {
+            this.playerYLocation--;
+            this.game = this.checkStatus(currentRow, currentCol);
+        } else if (direction === 'd') {
+            this.playerYLocation++;
+            this.game = this.checkStatus(currentRow, currentCol);
+        } else if (direction === 'l') {
+            this.playerXLocation--;
+            this.game = this.checkStatus(currentRow, currentCol);
+        } else if (direction === 'r') {
+            this.playerXLocation++;
+            this.game = this.checkStatus(currentRow, currentCol);
+        } else {
+            this.game = this.checkStatus(currentRow, currentCol);
+            console.log('\n');
+            console.log(this.game.message);
+        }
+    }
+
+    checkStatus(currentX, currentY) {
+        const colOutOfBounds = this.field.length;
+        const rowOutOfBounds = this.field[0].length;
+
+        let status = undefined;
+        let over = undefined;
+
+        // Check if Fallen off column
+        if (currentX < 0 || currentX >= colOutOfBounds) {
+            over = true;
+            status = 'Out Of Bounds!';
+        }
+        // Check if Fallen off row
+        else if (currentY < 0 || currentY >= rowOutOfBounds) {
+            over = true;
+            status = 'Out Of Bounds!';
+        }
+        // Check if on hat position
+        else if (this.field[currentY][currentX] === hat) {
+            over = true;
+            status = 'You Found Your Hat!';
+        }
+        // Check if Landed on hole
+        else if (this.field[currentY][currentX] === hole) {
+            over = true;
+            status = 'You Fell In A Hole!';
+        } else {
+            over = false;
+            status = 'Invalid Input Please Use Valid Directions.';
+        }
+
+        return {
+            over,
+            status
+
+        }
     }
 
     print() {
@@ -62,50 +153,8 @@ const myField = new Field(Field.generateField(5, 5));
 console.log(myField)
 
 // Game logic
-let gameOver = false;
 let currentRow = 0;
 let currentCol = 0;
-
-while (!gameOver) {
-
-    console.log('\n\nDirections: up = u, down = d, right = r, left = l');
-
-    myField.print();
-    const direction = prompt('Which direction would you like to move? ');
-
-
-
-    if (direction === 'u') {
-        currentRow--;
-        game = checkStatus(currentRow, currentCol);
-    } else if (direction === 'd') {
-        currentRow++;
-        game = checkStatus(currentRow, currentCol);
-    } else if (direction === 'l') {
-        currentCol--;
-        game = checkStatus(currentRow, currentCol);
-    } else if (direction === 'r') {
-        currentCol++;
-        game = checkStatus(currentRow, currentCol);
-    } else {
-        game = checkStatus(currentRow, currentCol);
-        console.log('\n');
-        console.log(game.status);
-    }
-
-    // Check if Game over
-    if (!game.over) myField.updateField(currentRow, currentCol);
-    else {
-
-        // End the game
-        gameOver = game.over
-
-        // Log reason Game ended
-        console.log(game.status);
-
-
-    }
-}
 
 function checkStatus(currentRow, currentCol) {
     const colOutOfBounds = myField.field.length;
