@@ -36,16 +36,7 @@ class Field {
 
             // Check if Game over
             if (!this.game.over) this.updateField(this.playerYLocation, this.playerXLocation);
-            else {
-
-                // End the game
-                gameOver = game.over
-
-                // Log reason Game ended
-                console.log(game.status);
-
-
-            }
+            else console.log(game.status);
         }
 
 
@@ -57,18 +48,18 @@ class Field {
 
         if (direction === 'u') {
             this.playerYLocation--;
-            this.game = this.checkStatus(currentRow, currentCol);
+            this.checkStatus(this.playerXLocation, this.playerYLocation);
         } else if (direction === 'd') {
             this.playerYLocation++;
-            this.game = this.checkStatus(currentRow, currentCol);
+            this.checkStatus(this.playerXLocation, this.playerYLocation);
         } else if (direction === 'l') {
             this.playerXLocation--;
-            this.game = this.checkStatus(currentRow, currentCol);
+            this.checkStatus(this.playerXLocation, this.playerYLocation);
         } else if (direction === 'r') {
             this.playerXLocation++;
-            this.game = this.checkStatus(currentRow, currentCol);
+            this.checkStatus(this.playerXLocation, this.playerYLocation);
         } else {
-            this.game = this.checkStatus(currentRow, currentCol);
+            this.checkStatus(this.playerXLocation, this.playerYLocation);
             console.log('\n');
             console.log(this.game.message);
         }
@@ -78,38 +69,35 @@ class Field {
         const colOutOfBounds = this.field.length;
         const rowOutOfBounds = this.field[0].length;
 
-        let status = undefined;
+        let message = undefined;
         let over = undefined;
 
         // Check if Fallen off column
         if (currentX < 0 || currentX >= colOutOfBounds) {
             over = true;
-            status = 'Out Of Bounds!';
+            message = 'Out Of Bounds!';
         }
         // Check if Fallen off row
         else if (currentY < 0 || currentY >= rowOutOfBounds) {
             over = true;
-            status = 'Out Of Bounds!';
+            message = 'Out Of Bounds!';
         }
         // Check if on hat position
         else if (this.field[currentY][currentX] === hat) {
             over = true;
-            status = 'You Found Your Hat!';
+            message = 'You Found Your Hat!';
         }
         // Check if Landed on hole
         else if (this.field[currentY][currentX] === hole) {
             over = true;
-            status = 'You Fell In A Hole!';
+            message = 'You Fell In A Hole!';
         } else {
             over = false;
-            status = 'Invalid Input Please Use Valid Directions.';
+            message = 'Invalid Input Please Use Valid Directions.';
         }
 
-        return {
-            over,
-            status
-
-        }
+        this.game.over = over;
+        this.game.message = message;
     }
 
     print() {
