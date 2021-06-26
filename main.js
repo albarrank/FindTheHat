@@ -36,7 +36,7 @@ class Field {
 
             // Check if Game over
             if (!this.game.over) this.updateField(this.playerYLocation, this.playerXLocation);
-            else console.log(game.status);
+            else console.log(this.game.message);
         }
 
 
@@ -110,7 +110,7 @@ class Field {
         this._field[row][col] = pathCharacter;
     }
 
-    static generateField(height, width, percent) {
+    static generateField(height, width, percent = 0.1) {
         // creates empty Array with height 
         const randField = new Array(height)
             // fills the empty undefinded filled array with defined value of 0
@@ -120,8 +120,6 @@ class Field {
 
 
         for (let i = 0; i < height; i++) {
-            let row = [];
-
             for (let k = 0; k < width; k++) {
                 const prob = Math.random();
                 randField[i][k] = prob > percent ? fieldCharacter : hole;
@@ -140,5 +138,6 @@ class Field {
     }
 };
 
-const myField = new Field(Field.generateField(5, 5));
+const myField = new Field(Field.generateField(10, 10));
 
+myField.startGame();
